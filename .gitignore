@@ -1,0 +1,7 @@
+data/
+Utils/
+__pycache__/
+venv/
+data_corrected.csv
+data_songs_genres.csv
+data_w_genres_corrected.csv

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form id="songs-selection" method="POST">
+
+    <template id="song-selection-template">
+        <div class="song-selection">
+            <label for="artist-textbox">Enter artist:</label>
+            <input type="text" class="song-data artist-textbox" name="artist" value="Arctic Monkeys">
+            <label for="title-textbox">Enter song title:</label>
+            <input type="text" class="song-data title-textbox" name="title" value="R U Mine?">
+            <button type="button" class="delete-song-button">Remove song</button>
+        </div>
+    </template>
+
+    <div id="songs-selectors">
+        
+    </div>
+    <button type="button" id="add-new-song">Add another song</button><br>
+
+    <label for="title-textbox">How many songs do you want to recommend?</label>
+    <input type="number" id="n-selector" name="no_songs"><br>
+
+    <button type="submit">Recommend!</button>
+    
+    
+</form>
+
+
+
+
+{% endblock %}

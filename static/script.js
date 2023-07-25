@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   
     form.addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent default form submission
+      // event.preventDefault(); // Prevent default form submission
   
       // Get form data and create a FormData object
       const formData = new FormData(form);

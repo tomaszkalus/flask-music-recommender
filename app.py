@@ -12,6 +12,7 @@ def main():
     
     if request.method == 'POST':
 
+        # print(request.data)
         if request.headers.get('Content-Type') != "application/json":
             abort(404)
         songs = request.get_json()
@@ -24,14 +25,20 @@ def main():
         recommended_songs['artists'] = recommended_songs['artists'].apply(lambda x: json.loads(x))
         recommended_songs['genres'] = recommended_songs['genres'].apply(lambda x: json.loads(x))
 
-        recommended_songs_json = recommended_songs.to_json(orient='records')
-        return recommended_songs_json
+        recommended_songs = recommended_songs.to_json(orient='records')
+        return recommended_songs
+
+        # recommended_songs = recommended_songs.values.tolist()
+        
+        # return render_template('recommendations.html', songs=recommended_songs)
 
 
-@app.route("/recommendations")
+@app.route("/recommendations", methods=['POST'])
 def show_recommendations():
     recommended_songs = request.args.get('recommended_songs', default=None)
     if recommended_songs is not None:
         recommended_songs = json.loads(recommended_songs)
 
+    print(recommended_songs)
+    return 'Hello'
     return render_template('recommendations.html', songs=recommended_songs)

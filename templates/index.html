@@ -1,32 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<form id="songs-selection" method="POST">
-
-    <template id="song-selection-template">
-        <div class="song-selection">
-            <label for="artist-textbox">Enter artist:</label>
-            <input type="text" class="song-data artist-textbox" name="artist" value="Arctic Monkeys">
-            <label for="title-textbox">Enter song title:</label>
-            <input type="text" class="song-data title-textbox" name="title" value="R U Mine?">
-            <button type="button" class="delete-song-button">Remove song</button>
+<div id="app" class="col-md-8 mx-auto">
+    <form @submit.prevent="submitForm">
+        <div v-for="(song, index) in user_songs" :key="index">
+            <label>Artist:</label>
+            <input type="text" v-model="song.artist" required>
+            <label>Song Name:</label>
+            <input type="text" v-model="song.name" required>
+            <button v-if="index > 0" type="button" class="btn btn-outline-danger" @click="removeSong(index)"><i class="bi bi-dash-circle"></i></button>
         </div>
-    </template>
+        <button type="button" class="btn btn-primary m-2" @click="addSong"><i class="bi bi-plus-circle mx-2"></i>Add Another Song</button>
+        <br>
+        <input type="submit" class="btn btn-primary m-2" value="Submit">
+    </form>
+</div>
 
-    <div id="songs-selectors">
-        
-    </div>
-    <button type="button" id="add-new-song">Add another song</button><br>
+<script type="module">
 
-    <label for="title-textbox">How many songs do you want to recommend?</label>
-    <input type="number" id="n-selector" name="no_songs"><br>
+    import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
-    <button type="submit">Recommend!</button>
-    
-    
-</form>
+    createApp({
+        setup() {
+            const user_songs = ref([{ artist: "Arctic Monkeys", name: "R U Mine?" }]);
+
+            function addSong() {
+                user_songs.value.push({ artist: "", name: "" });
+            }
+
+            function removeSong(index) {
+                if (user_songs.value.length > 1) {
+                    user_songs.value.splice(index, 1);
+                }
+            }
+
+            function submitForm() {
+                const songsJson = JSON.stringify(user_songs.value)
+
+                fetch("{{url_for('main')}}", {
+                    method: "POST",
+                    body: songsJson,
+                    headers: { "Content-Type": "application/json", }})
+                    .then((response) => response.json()) // If expecting JSON response
+                    .then((data) => { console.log(data); })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            }
+
+            return {
+                user_songs,
+                addSong,
+                removeSong,
+                submitForm
+            }
+        }
+    }).mount('#app')
 
 
-
+</script>
 
 {% endblock %}

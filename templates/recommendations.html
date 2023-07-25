@@ -2,38 +2,39 @@
 {% block content %}
 
 <h1>Music Data Table</h1>
-    <table>
-        <tr>
-            <th>Year</th>
-            <th>Artists</th>
-            <th>Danceability</th>
-            <th>Energy</th>
-            <th>ID</th>
-            <th>Instrumentalness</th>
-            <th>Name</th>
-            <th>Popularity</th>
-            <th>Tempo</th>
-            <th>Genres</th>
-            <th>Genre Compatibility</th>
-            <th>Cosine Similarity</th>
-        </tr>
-        {% for item in music_data %}
-        <tr>
-            <td>{{ item.year }}</td>
-            <td>{{ item.artists }}</td>
-            <td>{{ item.danceability }}</td>
-            <td>{{ item.energy }}</td>
-            <td>{{ item.id }}</td>
-            <td>{{ item.instrumentalness }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.popularity }}</td>
-            <td>{{ item.tempo }}</td>
-            <td>{{ item.genres }}</td>
-            <td>{{ item['genre compatibility'] }}</td>
-            <td>{{ item.cosine_similarity }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<table>
+    <tr>
+        <th>Year</th>
+        <th>Artists</th>
+        <th>Danceability</th>
+        <th>Energy</th>
+        <th>ID</th>
+        <th>Instrumentalness</th>
+        <th>Name</th>
+        <th>Popularity</th>
+        <th>Tempo</th>
+        <th>Genres</th>
+        <th>Genre Compatibility</th>
+        <th>Cosine Similarity</th>
+    </tr>
 
-    
+    <template>
+        <tr>
+            <td>{{ song.year }}</td>
+            <td>{{ song.artists }}</td>
+            <td>{{ song.danceability }}</td>
+            <td>{{ song.energy }}</td>
+            <td>{{ song.id }}</td>
+            <td>{{ song.instrumentalness }}</td>
+            <td>{{ song.name }}</td>
+            <td>{{ song.popularity }}</td>
+            <td>{{ song.tempo }}</td>
+            <td>{{ song.genres }}</td>
+            <td>{{ song['genre compatibility'] }}</td>
+            <td>{{ song.cosine_similarity }}</td>
+        </tr>
+    </template>
+</table>
+
+
 {% endblock %}

@@ -2,26 +2,25 @@
 {% block content %}
 
 <h1>Music Data Table</h1>
-<table>
-    <tr>
-        <th>Year</th>
-        <th>Artists</th>
-        <th>Danceability</th>
-        <th>Energy</th>
-        <th>ID</th>
-        <th>Instrumentalness</th>
-        <th>Name</th>
-        <th>Popularity</th>
-        <th>Tempo</th>
-        <th>Genres</th>
-        <th>Genre Compatibility</th>
-        <th>Cosine Similarity</th>
-    </tr>
-
-    <template>
+    <table>
+        <tr>
+            <th>Year</th>
+            <th>Artists</th>
+            <th>Danceability</th>
+            <th>Energy</th>
+            <th>ID</th>
+            <th>Instrumentalness</th>
+            <th>Name</th>
+            <th>Popularity</th>
+            <th>Tempo</th>
+            <th>Genres</th>
+            <th>Genre Compatibility</th>
+            <th>Cosine Similarity</th>
+        </tr>
+        {% for song in songs %}
         <tr>
             <td>{{ song.year }}</td>
-            <td>{{ song.artists }}</td>
+            <td>{{ song.artists[0] }}</td>
             <td>{{ song.danceability }}</td>
             <td>{{ song.energy }}</td>
             <td>{{ song.id }}</td>
@@ -33,8 +32,8 @@
             <td>{{ song['genre compatibility'] }}</td>
             <td>{{ song.cosine_similarity }}</td>
         </tr>
-    </template>
-</table>
+        {% endfor %}
+    </table>
 
 
 {% endblock %}

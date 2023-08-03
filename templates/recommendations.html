@@ -1,8 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="container text-center">
+    <h1 class="mb-5">Your recommendations:</h1>
+    <div id="recommendations">
+        {% for song in songs %}
+        <div class="recommendation-card d-flex align-items-center justify-content-between">
+            <div class="fs-4">{{loop.index}}.</div>
+            <div >
+                <p class="fs-4 lh-1">{{ song.name }}</p>
+                <p class="fs-6 lh-1 mb-1">{{ song.artists[0] }}</p>
+            </div>
+            <div>
+                <p class="fs-3 lh-1">{{ (song.cosine_similarity|round(2, 'floor') * 100) | int }}%</p>
+            </div>
 
-<h1>Music Data Table</h1>
-    <table>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- <table>
         <tr>
             <th>Year</th>
             <th>Artists</th>
@@ -33,7 +52,7 @@
             <td>{{ song.cosine_similarity }}</td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
 
 
 {% endblock %}

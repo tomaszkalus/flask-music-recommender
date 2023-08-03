@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container text-center">
+    <h1 class="mb-5">Your recommendations:</h1>
+    <div id="recommendations">
+        {% for song in songs %}
+        <div class="recommendation-card p-1">
+            <div class="number-container">
+                <p class="fs-4">{{loop.index}}.</p>
+            </div>
+            <div class="song-name-container">
+                <p class="fs-4 lh-0 my-0">{{ song.name }}</p>
+            </div>
+            <div class="artist-name-container">
+                <p class="fs-6 lh-0 mb-1 my-0">{{ song.artists[0] }}</p>
+            </div>
+            <div class="year-container">
+                <p class="fs-6 lh-0 my-0">{{ song.year }}</p>
+            </div>
+            <div class="genres-container"> 
+                {% for genre in song.genres[:8] %}
+                <!-- <span class="badge rounded-pill text-bg-primary mx-1">{{genre}}</span> -->
+                <span class="badge rounded-pill text-bg-secondary mx-1">{{genre}}</span>
+                {% endfor %}
+
+            </div>
+            <div class="percent-container">
+                <p class="fs-3 lh-1">{{ (song.cosine_similarity|round(2, 'floor') * 100) | int }}%</p>
+            </div>
+
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

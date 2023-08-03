@@ -2,96 +2,37 @@
 {% block content %}
 
 <div id="app" class="col-md-8 mx-auto">
+    <p class="fs-1 mb-5 text-center">Enter your favourite songs below:</p>
 
+    <form @submit.prevent="submitForm" class="container text-center px-5">
+        <div v-for="(song, index) in user_songs" :key="index" class="container">
+            <div class="row align-items-center gx-2">
+                <div class="col">
+                    <input type="text" v-model="song.artist" required class="form-control" placeholder="Artist name"
+                        aria-label="Artist name">
+                </div>
+                <div class="col">
+                    <input type="text" v-model="song.name" required class="form-control" placeholder="Song title"
+                        aria-label="Artist name">
+                </div>
 
-    <form @submit.prevent="submitForm" v-if="state == 'form'">
-        <div v-for="(song, index) in user_songs" :key="index">
-            <label>Artist:</label>
-            <input type="text" v-model="song.artist" required>
-            <label>Song Name:</label>
-            <input type="text" v-model="song.name" required>
-            <button v-if="index > 0" type="button" class="btn btn-outline-danger" @click="removeSong(index)"><i class="bi bi-dash-circle"></i></button>
+                <div class="col-1 align-bottom justify-content-start" style="width:1%">
+                    <button v-if="index > 0" type="button" class="close-btn" @click="removeSong(index)"><i class="bi bi-trash3-fill"></i></button>
+                </div>
+
+            </div>
+
         </div>
-        <button type="button" class="btn btn-primary m-2" @click="addSong"><i class="bi bi-plus-circle mx-2"></i>Add Another Song</button>
+        <button type="button" class="btn btn-primary m-2" @click="addSong"><i class="bi bi-plus-circle mx-2"></i>Add
+            Another Song</button>
         <br>
         <input type="submit" class="btn btn-primary m-2" value="Submit">
     </form>
-    <div v-if="state == 'recommendations'">
-        <h1>YOUR RECOMMENDATIONS!</h1>
-    </div>
 </div>
 
 
 
-<script type="module">
-
-    // import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-    const { createApp, ref } = Vue
-
-    import Recommendations from "{{ url_for('static', filename='recommendations.js') }}";
-    import SongsInput from "{{ url_for('static', filename='songsInput.js') }}";
-
-
-    const app = createApp({
-        components: {
-            Recommendations,
-            SongsInput 
-        },
-        setup() {
-            const user_songs = ref([{ artist: "Arctic Monkeys", name: "R U Mine?" }]);
-
-            let state = ref('form');
-
-            function addSong() {
-                user_songs.value.push({ artist: "", name: "" });
-            }
-
-            function removeSong(index) {
-                if (user_songs.value.length > 1) {
-                    user_songs.value.splice(index, 1);
-                }
-            }
-
-            function submitForm() {
-                const songsJson = JSON.stringify(user_songs.value);
-
-                const songs = user_songs.value.map(song => {
-                    return new URLSearchParams(song).toString();
-                })
-                const songs_separated = songs.join('/');
-                console.log(songs_separated);
-
-
-                window.location.href = "/show_recommendations/" + songs_separated
-
-                fetch("/show_recommendations/" + songs_separated)
-                .then((response) => response.json())
-                .then((data) => { 
-
-                    console.log(data); 
-                        
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-
-                    
-            }
-
-
-            return {
-                user_songs,
-                addSong,
-                removeSong,
-                submitForm,
-                state
-            }
-        }
-    })
-    app.component('Recomendations', {Recommendations});
-    app.component('SongsInput', {SongsInput});
-    app.mount('#app')
-
+<script type="module" src="{{url_for('static', filename='script.js')}}">
 
 </script>
 

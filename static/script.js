@@ -1,79 +1,39 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("songs-selection");
-    addNewSongSelection()
+const { createApp, ref } = Vue
 
-    const newSongBtn = document.querySelector('#add-new-song');
+const app = createApp({
+    setup() {
+        const user_songs = ref([{ artist: "Arctic Monkeys", name: "R U Mine?" }]);
 
-    newSongBtn.addEventListener("click", () => {
-      addNewSongSelection();
+        function addSong() {
+            user_songs.value.push({ artist: "", name: "" });
+        }
 
-    })
-  
-    form.addEventListener("submit", function (event) {
-      // event.preventDefault(); // Prevent default form submission
-  
-      // Get form data and create a FormData object
-      const formData = new FormData(form);
+        function removeSong(index) {
+            if (user_songs.value.length > 1) {
+                user_songs.value.splice(index, 1);
+            }
+        }
 
-      const songs = getSongsList();
-      const songsJson = JSON.stringify(songs);
+        function submitForm() {
+            const songsObj = {};
 
-      // const params = new URLSearchParams(songs).toString();
+            for (const [index, element] of user_songs.value.entries()) {
+                songsObj['artist' + (index + 1)] = element['artist']
+                songsObj['name' + (index + 1)] = element['name']
+            }
 
-      // console.log(params)
+            const queryString = new URLSearchParams(songsObj).toString();
 
-  
-      // Send the data to the endpoint using the fetch API
-      fetch(form.action, {
-        method: "POST",
-        body: songsJson,
-        headers: {
-            "Content-Type": "application/json",
-          }
-      })
-        .then((response) => response.json()) // If expecting JSON response
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          // Handle any errors that occurred during the fetch
-          console.error("Error:", error);
-        });
-
-    });
-  });
-
-  function addNewSongSelection(){
-    const template = document.querySelector('#song-selection-template');
-    const songSelectorsContainer = document.querySelector('#songs-selectors');
-    const songSelectorNode = template.content.cloneNode(true);
-    songSelectorsContainer.appendChild(songSelectorNode);
-
-    const lastSongSelector = songSelectorsContainer.lastElementChild;
-    const removeSongBtn = lastSongSelector.querySelector('.delete-song-button');
-
-    removeSongBtn.addEventListener('click', () => {
-      lastSongSelector.remove();
-    })
-
-  }
-
-  function getSongsList(){
-    const songSelectorsContainer = document.querySelector('#songs-selectors');
-    const songSelectors = songSelectorsContainer.children;
-    songs = [];
-
-    for (let songSelector of songSelectors) {
-      const artist = songSelector.querySelectorAll('.artist-textbox')[0].value
-      const name = songSelector.querySelectorAll('.title-textbox')[0].value
-      const song = {artist, name};
-      songs.push(song);
-
-    } 
-    return songs;
+            window.location.href = "/show_recommendations?" + queryString;
+        }
 
 
-
-  }
-
-
+        return {
+            user_songs,
+            addSong,
+            removeSong,
+            submitForm,
+        }
+    }
+})
+app.mount('#app')

@@ -1,15 +1,23 @@
+.page-content {
+  margin-bottom: 10%;
+}
+
+
+
+
 .close-btn {
-    border: none; /* Remove borders */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
-    color: rgb(63, 63, 63);
-    background: none;
-  }
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: rgb(63, 63, 63);
+  background: none;
+}
 
 .close-btn:hover {
-    color:rgb(117, 117, 117)
-  }
+  color: rgb(117, 117, 117)
+}
 
+*/
 /* .recommendation-card{
     border-style: none;
     box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2);
@@ -18,21 +26,21 @@
     padding:10px;
 } */
 
-#recommendations{
-    text-align: center;
-    /* width:20%; */
+#recommendations {
+  text-align: center;
+  /* width:20%; */
 }
 
-#recommendations-container{
-    /* width:20%; */
-    text-align: center;
+#recommendations-container {
+  /* width:20%; */
+  text-align: center;
 }
 
-.recommendation-card{
+.recommendation-card {
   border-style: none;
-    box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2);
-    /* background-color: rgb(253, 253, 253); */
-  height:auto;
+  box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+  /* background-color: rgb(253, 253, 253); */
+  height: auto;
   display: grid;
   grid-template-columns: 1fr 7fr 1fr;
   grid-template-rows: 2fr 1fr 1fr 1fr;
@@ -41,37 +49,42 @@
   margin-bottom: 20px;
 }
 
-.number-container{
+.number-container {
   grid-area: 1 / 1 / 5 / 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.song-name-container{
+
+.song-name-container {
   grid-area: 1 / 2 / 2 / 3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.artist-name-container{
+
+.artist-name-container {
   grid-area: 2 / 2 / 3 / 3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.year-container{
+
+.year-container {
   grid-area: 3 / 2 / 4 / 3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.genres-container{
+
+.genres-container {
   grid-area: 4 / 2 / 5 / 3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.percent-container{
+
+.percent-container {
   grid-area: 1 / 3 / 5 / 4;
   display: flex;
   justify-content: center;

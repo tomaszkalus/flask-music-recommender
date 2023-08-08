@@ -4,6 +4,7 @@ from recommender import Recommender
 import pandas as pd
 import pickle
 from datetime import datetime
+from Utils.spotipy_test import spotify_search
 
 app = Flask(__name__)
 
@@ -49,3 +50,13 @@ def recommend():
     pickle.dump( recommended_songs, open( "example_recommendations.p", "wb" ) )
 
     return render_template('recommendations_v2.html', songs=recommended_songs)
+
+@app.route("/search/<search_query>")
+def search(search_query):
+    print(search_query)
+    suggestions = spotify_search(search_query)
+    return json.dumps(suggestions)
+
+@app.route('/autocomplete_test')
+def test():
+    return render_template('index_autocomplete.html')

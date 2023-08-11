@@ -2,24 +2,22 @@
 {% block content %}
 
 <div id="app" class="d-flex flex-column align-center justify-center">
+
+    
+
     <div>
         <div class="text-h4 mb-10">Enter your favourite songs below:</div>
     </div>
     
     <form @submit.prevent="submitForm" class="w-50 d-flex  flex-column ">
+
+        <!-- <song-auto-complete-input ></song-auto-complete-input> -->
+
         <div v-for="(song, index) in user_songs" :key="index" class="d-flex mb-3">
-            <v-autocomplete
-            class="user-song-input"
-            v-model="select"
-            v-model:search="search"
-            :loading="loading"
-            :items="items"
-            @update:focused="(v) => {}"
-            density="comfortable"
-            hide-no-data
-            hide-details
-            label="Enter song for recommendation"
-            ></v-autocomplete>
+
+            <song-auto-complete-input @selectedchanged="newSelection => user_songs[index] = newSelection"></song-auto-complete-input>
+
+
             <div class="d-flex ml-3" style="width:1%">
                 <button v-if="index > 0" type="button" class="close-btn" @click="removeSong(index)"><i class="bi bi-trash3-fill text-h6"></i></button>
             </div>

@@ -4,7 +4,7 @@ from recommender import Recommender
 import pandas as pd
 import pickle
 from datetime import datetime
-from Utils.spotipy_test import spotify_search
+from spotify_track_search import spotify_search
 
 app = Flask(__name__)
 

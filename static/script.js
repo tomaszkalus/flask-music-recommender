@@ -1,40 +1,45 @@
 const { createApp, ref, watch } = Vue
 const { createVuetify } = Vuetify
+import SongAutoCompleteInput from "./SongAutoCompleteInput.js"
 
 const vuetify = createVuetify()
 
 const app = createApp({
+
+    components:{
+        SongAutoCompleteInput
+    },
+
     setup() {
-        const user_songs = ref([{ artist: "Arctic Monkeys", name: "R U Mine?" }]);
+        const user_songs = ref([null]);
 
-        let loading = ref(false);
-        let items = ref([]);
-        let search = ref(null);
-        let select = ref(null);
-        let lastExecution = Date.now();
-        const delay = 500
+        // let loading = ref(false);
+        // let items = ref([]);
+        // let search = ref(null);
+        // let select = ref(null);
+        // let lastExecution = Date.now();
+        // const delay = 500
 
-        watch(search, (val) => {
-            if (val.length == 0) { items.value.length = 0 }
-            if (val.length > 2 && ((lastExecution + delay) < Date.now())) {
-                val && val !== select.value && getSongsSuggestions(val)
-                console.log(val)
-                lastExecution = Date.now()
-            }
-        })
+        // watch(search, (val) => {
+        //     if (val.length == 0) { items.value.length = 0 }
+        //     if (val.length > 2 && ((lastExecution + delay) < Date.now())) {
+        //         val && val !== select.value && getSongsSuggestions(val)
+        //         console.log(val)
+        //         lastExecution = Date.now()
+        //     }
+        // })
 
-        async function getSongsSuggestions(userInput) {
-            loading = true;
-            const response = await fetch("/search/" + encodeURIComponent(userInput));
-            const songs = await response.json();
-            items.value = songs.map(e => `${e['artists']} - ${e['name']}`)
-            console.log(songs);
-            loading = false;
-
-        }
+        // async function getSongsSuggestions(userInput) {
+        //     loading = true;
+        //     const response = await fetch("/search/" + encodeURIComponent(userInput));
+        //     const songs = await response.json();
+        //     items.value = songs.map(e => `${e['artists']} - ${e['name']}`)
+        //     console.log(songs);
+        //     loading = false;
+        // }
 
         function addSong() {
-            user_songs.value.push({ artist: "", name: "" });
+            user_songs.value.push(null);
         }
 
         function removeSong(index) {
@@ -44,16 +49,19 @@ const app = createApp({
         }
 
         function submitForm() {
-            const songsObj = {};
 
-            for (const [index, element] of user_songs.value.entries()) {
-                songsObj['artist' + (index + 1)] = element['artist']
-                songsObj['name' + (index + 1)] = element['name']
-            }
+            console.log(user_songs.value)
 
-            const queryString = new URLSearchParams(songsObj).toString();
+            // const songsObj = {};
 
-            window.location.href = "/show_recommendations?" + queryString;
+            // for (const [index, element] of user_songs.value.entries()) {
+            //     songsObj['artist' + (index + 1)] = element['artist']
+            //     songsObj['name' + (index + 1)] = element['name']
+            // }
+
+            // const queryString = new URLSearchParams(songsObj).toString();
+
+            // window.location.href = "/show_recommendations?" + queryString;
         }
 
 
@@ -62,10 +70,10 @@ const app = createApp({
             addSong,
             removeSong,
             submitForm,
-            loading,
-            items,
-            search,
-            select
+            // loading,
+            // items,
+            // search,
+            // select
 
         }
     }

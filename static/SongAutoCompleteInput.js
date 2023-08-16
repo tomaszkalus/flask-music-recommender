@@ -14,6 +14,7 @@ export default {
         let select = ref(null);
         let lastExecution = Date.now();
         const delay = 500
+        const test=ref('TESSST');
 
 
         watch(search, (val) => {
@@ -26,14 +27,15 @@ export default {
 
         watch(select, (val) => {
             emit('selectedchanged', val);
-            console.log(`Selected value: ${val}`)
+            // console.log('Selected value:')
+            // console.log(val)
         })
 
         async function getSongsSuggestions(userInput) {
             loading = true;
             const response = await fetch("/search/" + encodeURIComponent(userInput));
             const suggestedSongs = await response.json();
-            items.value = suggestedSongs.map(song => ({ artists: song.artists, name: song.name, id: song.id }));
+            items.value = suggestedSongs.map(song => ({ artists: song.artists, name: song.name, id: song.id, display:`${song.artists} - ${song.name}` }));
             // console.log(suggestedSongs)
 
             loading = false;
@@ -43,7 +45,8 @@ export default {
             loading,
             items,
             search,
-            select
+            select,
+            test
         }
 
     },
@@ -55,9 +58,10 @@ export default {
             v-model:search="search"
             :loading="loading"
             :items="items"
+            :return-object="true"
             no-filter
-            item-title="name"
-            item-value="id"
+            item-title="display"
+            item-value="display"
             @update:focused="(v) => {}"
             density="comfortable"
             hide-no-data

@@ -19,23 +19,31 @@ def main():
 @app.route('/example')
 def example():
     songs = pickle.load( open( "example_recommendations.p", "rb" ) )
-    return render_template('recommendations_v2.html', songs=songs)
+    return render_template('recommendations_v3.html', songs=songs)
     
 @app.route("/show_recommendations")
 def recommend():
     data = request.args
     user_songs = []
 
+    # i = 1
+    # while True:
+    #     song = {}
+    #     artist = data.get(f'artist{i}')
+    #     song_name = data.get(f'name{i}')
+    #     if not artist or not song_name:
+    #         break
+    #     song['artist'] = artist
+    #     song['name'] = song_name
+    #     user_songs.append(song)
+    #     i += 1
+
     i = 1
     while True:
-        song = {}
-        artist = data.get(f'artist{i}')
-        song_name = data.get(f'name{i}')
-        if not artist or not song_name:
+        id = data.get(f'id{i}')
+        if not id:
             break
-        song['artist'] = artist
-        song['name'] = song_name
-        user_songs.append(song)
+        user_songs.append(id)
         i += 1
 
     recommender = Recommender()
@@ -46,10 +54,8 @@ def recommend():
     recommended_songs['genres'] = recommended_songs['genres'].apply(lambda x: json.loads(x))
 
     recommended_songs = recommended_songs.to_dict(orient='records')
-
     pickle.dump( recommended_songs, open( "example_recommendations.p", "wb" ) )
-
-    return render_template('recommendations_v2.html', songs=recommended_songs)
+    return render_template('recommendations_v3.html', songs=recommended_songs)
 
 @app.route("/search/<search_query>")
 def search(search_query):

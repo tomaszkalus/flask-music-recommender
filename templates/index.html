@@ -1,25 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div id="app" class="d-flex flex-column align-center justify-center">
+<!-- <div id="app" class="d-flex flex-column align-center justify-center"> -->
 
     
 
     <div>
         <div class="text-h4 mb-10">Enter your favourite songs below:</div>
     </div>
-    
-    <form @submit.prevent="submitForm" class="w-50 d-flex  flex-column ">
 
-        <!-- <song-auto-complete-input ></song-auto-complete-input> -->
 
+    <form @submit.prevent="submitForm" class="w-50 d-flex flex-column ">
         <div v-for="(song, index) in user_songs" :key="index" class="d-flex mb-3">
 
-            <song-auto-complete-input @selectedchanged="newSelection => user_songs[index] = newSelection"></song-auto-complete-input>
-
+            <song-auto-complete-input
+                @selectedchanged="newSelection => user_songs[index] = newSelection"></song-auto-complete-input>
 
             <div class="d-flex ml-3" style="width:1%">
-                <button v-if="index > 0" type="button" class="close-btn" @click="removeSong(index)"><i class="bi bi-trash3-fill text-h6"></i></button>
+                <button v-if="index > 0" type="button" class="close-btn" @click="removeSong(index)">
+                    <i class="bi bi-trash3-fill text-h6"></i></button>
             </div>
         </div>
         <div class="d-flex flex-column justify-center align-center">
@@ -27,6 +26,12 @@
             <v-btn type="submit" class="mt-5 w-25">Submit</v-btn>
         </div>
     </form>
-</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="module" src="{{url_for('static', filename='songAutocompleteInput.js')}}"></script>
+<script type="module" src="{{url_for('static', filename='main-page.js')}}"></script>
 
 {% endblock %}

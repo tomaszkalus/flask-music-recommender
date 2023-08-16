@@ -2,6 +2,25 @@
   margin-bottom: 10%;
 }
 
+html, body {
+  height:100%;
+}
+
+a{
+  text-decoration: none;
+  color: white;
+}
+/* .navbar{
+  padding: 10px;
+  margin-bottom: 5%;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-text{
+  text-decoration: none;
+  color: white;
+} */
 
 
 

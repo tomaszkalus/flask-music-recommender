@@ -16,7 +16,6 @@ def spotify_search(userInput):
     print(results)
 
     for idx, track in enumerate(results['tracks']['items']):
-        # print(f"{', '.join([t['name'] for t in track['artists']])} - {track['name']}")
         artists = ', '.join([t['name'] for t in track['artists']])
         mapped_song = {'artists': artists, 'name': track['name'], 'id': track['id']  }
         suggestions.append(mapped_song)

@@ -1,5 +1,17 @@
-<footer id="sticky-footer" class="flex-shrink-0 py-3 bg-dark text-white-50 mt-auto footer fixed-bottom">
-    <div class="container text-center">
-      <small>Copyright &copy; {{ now.year }}, Tomasz Kalus</small>
+<!-- <v-footer 
+class="bg-indigo-lighten-1 text-center d-flex flex-column mt-16">
+    <v-divider></v-divider>
+
+    <div>
+      Tomasz Kalus &copy; 2023
     </div>
-  </footer>
+  </v-footer> -->
+
+<div class="bg-indigo text-center d-flex flex-row pa-3 justify-center align-center">
+  Tomasz Kalus &copy; 2023
+  <div class="d-flex justify-center ml-2">
+    <v-btn class="text-h6 mr-0" :rounded="true" variant="text" href="https://github.com/tomaszkalus" target="_blank"><i class="bi bi-github"></i></v-btn>
+    <v-btn class="text-h6" :rounded="true" variant="text" href="https://www.linkedin.com/in/tomasz-kalus/" target="_blank"><i class="bi bi-linkedin"></i></v-btn>
+  </div>
+  
+</div>

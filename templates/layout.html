@@ -7,37 +7,39 @@
     <title>Music Recommendation System</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> -->
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
         integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.11/dist/vuetify.min.css">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.3.11/dist/vuetify.min.css">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    
 
 </head>
 
 <script src="https://unpkg.com/vue@3"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@3.3.11/dist/vuetify.min.js"></script>
-    
+
 
 <body>
-
-    {% include 'navbar.html' %}
-
-        <div class="page-content">
+    <div id="app" class="d-flex flex-column h-100">
+        
+        {% include 'navbar.html' %}
+        <div class="d-flex flex-column align-center justify-start flex-1-1">
             {% block content %}
             {% endblock %}
         </div>
+        {% include 'footer.html' %}
+    <!-- </v-container> -->
+    </div>
+
+    {% block scripts %}
+    {% endblock %}
 
 
-    {% include 'footer.html' %}
-
-    <script type="module" src="{{url_for('static', filename='songAutocompleteInput.js')}}"></script>
-    <script type="module" src="{{url_for('static', filename='script.js')}}"></script>
-    
 
 </body>
 

@@ -15,6 +15,7 @@ class Recommender:
 
     def __load_dataset_from_db(self) -> None:
         """Loads the Spotify songs and genres datasets from a local SQLite database."""
+        
         conn = sqlite3.connect(os.path.join("data", "database.db"))
         self.songs_dataset = pd.read_sql_query(
             "SELECT year, artists, danceability, energy, id, instrumentalness, name, popularity, tempo, genres FROM songs_w_genres",
@@ -37,6 +38,18 @@ class Recommender:
 
         except IndexError:
             return None
+        
+
+    def __get_song_by_id(self, song_id: str):
+        try:
+            song_data = self.songs_dataset[(self.songs_dataset["id"] == song_id)]
+            numeric_features = song_data.select_dtypes(exclude="object").iloc[0]
+            return numeric_features
+
+        except IndexError:
+            return None
+        
+
 
     def __get_artists_genres(self, artists_list: list[str]) -> set[str]:
         """Method for getting the set of unique genres of all the artists provided via an argument."""
@@ -50,11 +63,11 @@ class Recommender:
             genres.update(artist_genres)
         return genres
 
-    def __calculate_features_means(self, song_list: list[dict]) -> pd.Series:
+    def __calculate_features_means(self, song_list: list[str]) -> pd.Series:
         """Calculates the means of all the numeric features from the songs provided via an argument."""
         song_vectors = []
         for song in song_list:
-            song_data = self.__get_song_data(song)
+            song_data = self.__get_song_by_id(song)
             if song_data is None:
                 print("Warning: {} does not exist in database".format(song["name"]))
                 continue

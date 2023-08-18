@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, abort, render_template, redirect, url_for
 import json
 from recommender import Recommender
+from recommender_system import RecommendationSystem
 import pandas as pd
 import pickle
 from datetime import datetime
@@ -46,9 +47,11 @@ def recommend():
         user_songs.append(id)
         i += 1
 
-    recommender = Recommender()
+    # recommender = Recommender()
+    recommender_system = RecommendationSystem()
         
-    recommended_songs = recommender.recommend(user_songs, 10)
+    # recommended_songs = recommender.recommend(user_songs, 10)
+    recommended_songs = recommender_system.recommend(user_songs)
 
     recommended_songs['artists'] = recommended_songs['artists'].apply(lambda x: json.loads(x))
     recommended_songs['genres'] = recommended_songs['genres'].apply(lambda x: json.loads(x))
@@ -59,7 +62,7 @@ def recommend():
 
 @app.route("/search/<search_query>")
 def search(search_query):
-    print(search_query)
+    # print(search_query)
     suggestions = spotify_search(search_query)
     return json.dumps(suggestions)
 

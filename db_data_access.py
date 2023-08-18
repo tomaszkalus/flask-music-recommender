@@ -9,6 +9,7 @@ from typing import Optional
 
 class Db:
 
+    COLUMN_NAMES = ("valence", "year", "acousticness", "artists", "danceability", "duration_ms", "energy", "id", "instrumentalness", "liveness", "mode", "name", "popularity", "speechiness", "tempo", "genres")
     db_path = os.path.join("data", "database.db")
 
     def __init__(self) -> None:
@@ -19,8 +20,14 @@ class Db:
         
         conn = sqlite3.connect(os.path.join("data", "database.db"))
 
+        # songs_dataset = pd.read_sql_query(
+        #     "SELECT year, artists, danceability, energy, id, instrumentalness, name, popularity, tempo, genres FROM songs_w_genres",
+        #     conn,
+        # )
+
+        
         songs_dataset = pd.read_sql_query(
-            "SELECT year, artists, danceability, energy, id, instrumentalness, name, popularity, tempo, genres FROM songs_w_genres",
+            "SELECT * FROM songs_w_genres",
             conn,
         )
 
@@ -38,18 +45,29 @@ class Db:
         conn.close()
         return artists_genres_dataset
 
-    def is_in_database(self, id):    
+    # def is_in_database(self, id):    
+    #     with sqlite3.connect(Db.db_path) as conn:
+    #         cur = conn.cursor()
+    #         return cur.execute('SELECT * FROM songs_w_genres WHERE id = ?', (id,)).fetchone()
+    
+    def fetch_song(self, id): 
         with sqlite3.connect(Db.db_path) as conn:
             cur = conn.cursor()
-            return cur.execute('SELECT * FROM songs_w_genres WHERE id = ?', (id,)).fetchone()
+            # song = pd.read_sql_query('SELECT * FROM songs_w_genres WHERE id = :id', conn, params={'id': id})
+            # return song
+            song_data = cur.execute('SELECT * FROM songs_w_genres WHERE id = ?', (id,)).fetchone()
+            if song_data:
+                return {record[0]: record[1] for record in  zip(Db.COLUMN_NAMES, song_data)}
+            return None
+    
         
     def insert_song_into_db(self, song):
         with sqlite3.connect(Db.db_path) as conn:
             cur = conn.cursor()
             count = cur.execute('''
-                            INSERT INTO songs 
-                            ("valence", "year", "acousticness", "artists", "danceability", "duration_ms", "energy", "explicit", "id", 
-                            "instrumentalness", "liveness", "mode", "name", "popularity", "speechiness", "tempo") 
+                            INSERT INTO songs_w_genres 
+                            ("valence", "year", "acousticness", "artists", "danceability", "duration_ms", "energy", "id", 
+                            "instrumentalness", "liveness", "mode", "name", "popularity", "speechiness", "tempo", "genres") 
                             VALUES 
                             (:valence, 
                             :year, 
@@ -58,7 +76,6 @@ class Db:
                             :danceability, 
                             :duration_ms, 
                             :energy, 
-                            :explicit, 
                             :id, 
                             :instrumentalness, 
                             :liveness, 
@@ -66,15 +83,8 @@ class Db:
                             :name, 
                             :popularity, 
                             :speechiness, 
-                            :tempo);''', song)
-            # print(count)
+                            :tempo,
+                            :genres);''', song)
+
             conn.commit()
             cur.close()
-            # conn.close()
-        
-    
-
-# db = Db()
-# print(db.is_id_in_database('7xPhfUan2yNtyFG0cUWkt8'))
-
-

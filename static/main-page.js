@@ -26,20 +26,13 @@ const app = createApp({
         function submitForm() {
 
             const songsObj = {};
-            console.log(user_songs.value)
-            // console.log(SongIds)
-
-            // for (const [index, element] of user_songs.value.entries()) {
-            //     songsObj['artist' + (index + 1)] = element['artists']
-            //     songsObj['name' + (index + 1)] = element['name']
-            // }
 
             for (const [index, element] of user_songs.value.entries()) {
                 songsObj['id' + (index + 1)] = element['id']
             }
 
             const queryString = new URLSearchParams(songsObj).toString();
-            window.location.href = "/show_recommendations?" + queryString;
+            window.location.href = "/recommendations?" + queryString;
         }
 
         return {

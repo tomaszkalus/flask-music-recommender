@@ -1,58 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container text-center">
-    <h1 class="mb-5">Your recommendations:</h1>
-    <div id="recommendations">
-        {% for song in songs %}
-        <div class="recommendation-card d-flex align-items-center justify-content-between">
-            <div class="fs-4">{{loop.index}}.</div>
-            <div >
-                <p class="fs-4 lh-1">{{ song.name }}</p>
-                <p class="fs-6 lh-1 mb-1">{{ song.artists[0] }}</p>
-            </div>
-            <div>
-                <p class="fs-3 lh-1">{{ (song.cosine_similarity|round(2, 'floor') * 100) | int }}%</p>
-            </div>
 
-
-        </div>
-        {% endfor %}
-
-    </div>
+<div>
+    <div class="text-h4 mb-10">Your recommendations:</div>
 </div>
 
-<!-- <table>
-        <tr>
-            <th>Year</th>
-            <th>Artists</th>
-            <th>Danceability</th>
-            <th>Energy</th>
-            <th>ID</th>
-            <th>Instrumentalness</th>
-            <th>Name</th>
-            <th>Popularity</th>
-            <th>Tempo</th>
-            <th>Genres</th>
-            <th>Genre Compatibility</th>
-            <th>Cosine Similarity</th>
-        </tr>
-        {% for song in songs %}
-        <tr>
-            <td>{{ song.year }}</td>
-            <td>{{ song.artists[0] }}</td>
-            <td>{{ song.danceability }}</td>
-            <td>{{ song.energy }}</td>
-            <td>{{ song.id }}</td>
-            <td>{{ song.instrumentalness }}</td>
-            <td>{{ song.name }}</td>
-            <td>{{ song.popularity }}</td>
-            <td>{{ song.tempo }}</td>
-            <td>{{ song.genres }}</td>
-            <td>{{ song['genre compatibility'] }}</td>
-            <td>{{ song.cosine_similarity }}</td>
-        </tr>
-        {% endfor %}
-    </table> -->
+{% for song in songs %}
+<v-card class="w-50 mb-5">
+    <v-card-item>
+        <v-card-title>{{ song.name }}</v-card-title>
 
+        <v-card-subtitle>{{ song.artists[0] }}</v-card-subtitle>
+    </v-card-item>
+
+    <v-card-text>
+        {% for genre in song.genres[:8] %}
+        <v-chip class="mr-2 mt-2 ">{{ genre }}</v-chip>
+        {% endfor %}
+
+    </v-card-text>
+
+    <v-card-actions>
+        <v-btn href="{{ 'https://open.spotify.com/track/' + song.id}}" target="_blank">
+            <i class="bi bi-spotify mr-2"></i>Listen on Spotify
+        </v-btn>
+    </v-card-actions>
+</v-card>
+
+{% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="module" src="{{url_for('static', filename='recommendations-page.js')}}"></script>
 
 {% endblock %}

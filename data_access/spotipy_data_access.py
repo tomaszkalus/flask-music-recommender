@@ -2,7 +2,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.exceptions import SpotifyException
 import os
-import json
 
 
 class SpotifyDataAccess:
@@ -19,8 +18,8 @@ class SpotifyDataAccess:
         results = self.sp.search(q=query, limit=10)
         suggestions = []
 
-        for idx, track in enumerate(results["tracks"]["items"]):
-            artists = ", ".join([t["name"] for t in track["artists"]])
+        for track in results["tracks"]["items"]:
+            artists = ", ".join([artist["name"] for artist in track["artists"]])
             mapped_song = {"artists": artists, "name": track["name"], "id": track["id"]}
             suggestions.append(mapped_song)
 
@@ -41,18 +40,18 @@ class SpotifyDataAccess:
         except SpotifyException:
             return None
         artists_ids = [artist["id"] for artist in song_data["artists"]]
-        artists_names = [artist["name"] for artist in song_data["artists"]]
+        artists_names = set([artist["name"] for artist in song_data["artists"]])
         song_genres = self.fetch_song_genres(artists_ids)
         self.fetch_song_genres(artists_ids)
+
         song_obj = {
             "valence": features["valence"],
-            "year": song_data["album"]["release_date"].split("-")[0],
+            "year": int(song_data["album"]["release_date"].split("-")[0]),
             "acousticness": features["acousticness"],
-            "artists": json.dumps(artists_names),
+            "artists": artists_names,
             "danceability": features["danceability"],
             "duration_ms": song_data["duration_ms"],
             "energy": features["energy"],
-            "explicit": int(song_data["explicit"]),
             "id": song_id,
             "instrumentalness": features["instrumentalness"],
             "liveness": features["liveness"],
@@ -61,6 +60,7 @@ class SpotifyDataAccess:
             "popularity": song_data["popularity"],
             "speechiness": features["speechiness"],
             "tempo": features["tempo"],
-            "genres": json.dumps(list(song_genres)),
+            "genres": set(song_genres),
         }
         return song_obj
+    

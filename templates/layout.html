@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    
+
 
 </head>
 
@@ -26,14 +26,15 @@
 
 <body>
     <div id="app" class="d-flex flex-column h-100">
-        
+
         {% include 'navbar.html' %}
+
         <div class="d-flex flex-column align-center justify-start flex-1-1">
             {% block content %}
             {% endblock %}
         </div>
+        <v-progress-linear indeterminate :height="5" :active="recommendationsLoading"></v-progress-linear>
         {% include 'footer.html' %}
-    <!-- </v-container> -->
     </div>
 
     {% block scripts %}

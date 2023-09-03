@@ -1,4 +1,4 @@
-const { createApp, ref } = Vue
+const { createApp, ref, computed } = Vue
 const { createVuetify } = Vuetify
 import SongAutoCompleteInput from "./SongAutoCompleteInput.js"
 
@@ -11,10 +11,21 @@ const app = createApp({
     },
 
     setup() {
+        const user_songs_limit = 10;
+
         const user_songs = ref([null]);
+        let emptyInputModal = ref(false)
+        let recommendationsLoading = ref(false)
+
+        let is_songs_limit_exceeded = computed(() => {
+            return user_songs.value.length >= user_songs_limit
+        })
 
         function addSong() {
-            user_songs.value.push(null);
+            if (!is_songs_limit_exceeded.value) {
+                user_songs.value.push(null);
+            }
+
         }
 
         function removeSong(index) {
@@ -23,12 +34,27 @@ const app = createApp({
             }
         }
 
+        function areInputsEmpty() {
+            return user_songs.value.every(el => {
+                return el == null
+            })
+        }
+
         function submitForm() {
 
-            const songsObj = {};
+            if (areInputsEmpty()) {
+                emptyInputModal.value = true;
+                return
+            }
 
+            recommendationsLoading.value = true;
+
+            const songsObj = {};
             for (const [index, element] of user_songs.value.entries()) {
-                songsObj['id' + (index + 1)] = element['id']
+                if (element['id']) {
+                    songsObj['id' + (index + 1)] = element['id']
+                }
+
             }
 
             const queryString = new URLSearchParams(songsObj).toString();
@@ -40,6 +66,9 @@ const app = createApp({
             addSong,
             removeSong,
             submitForm,
+            is_songs_limit_exceeded,
+            emptyInputModal,
+            recommendationsLoading
         }
     }
 })

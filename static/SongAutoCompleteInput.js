@@ -7,37 +7,31 @@ export default {
         selected: String
     },
 
-    setup(props, { emit }){
+    setup(props, { emit }) {
         let loading = ref(false);
         let items = ref([]);
         let search = ref(null);
         let select = ref(null);
         let lastExecution = Date.now();
         const delay = 500
-        const test=ref('TESSST');
-
 
         watch(search, (val) => {
             if (val.length == 0) { items.value.length = 0 }
             if (val.length > 2 && ((lastExecution + delay) < Date.now())) {
                 val && val !== select.value && getSongsSuggestions(val)
                 lastExecution = Date.now()
-            }        
+            }
         })
 
         watch(select, (val) => {
             emit('selectedchanged', val);
-            // console.log('Selected value:')
-            // console.log(val)
         })
 
         async function getSongsSuggestions(userInput) {
             loading = true;
             const response = await fetch("/search/" + encodeURIComponent(userInput));
             const suggestedSongs = await response.json();
-            items.value = suggestedSongs.map(song => ({ artists: song.artists, name: song.name, id: song.id, display:`${song.artists} - ${song.name}` }));
-            // console.log(suggestedSongs)
-
+            items.value = suggestedSongs.map(song => ({ artists: song.artists, name: song.name, id: song.id, display: `${song.artists} - ${song.name}` }));
             loading = false;
         }
 
@@ -46,7 +40,6 @@ export default {
             items,
             search,
             select,
-            test
         }
 
     },
@@ -79,5 +72,4 @@ export default {
             
             </v-autocomplete>
     `
-  }
-  
+}

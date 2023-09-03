@@ -2,8 +2,12 @@ from flask import Flask, request, render_template
 import json
 from recommender_system import RecommendationSystem
 from data_access.spotipy_data_access import SpotifyDataAccess
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
+
+limiter = Limiter(get_remote_address, app=app, default_limits=["500 per day", "150 per hour"])
 
 
 @app.route("/", methods=['GET'])
@@ -37,6 +41,7 @@ def recommend():
 
 
 @app.route("/search/<search_query>")
+@limiter.limit("60 per minute")
 def search(search_query):
     spotify_dao = SpotifyDataAccess()
     suggestions = spotify_dao.autocomplete_search(search_query)

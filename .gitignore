@@ -9,4 +9,8 @@ data_w_genres_corrected.csv
 settings.json
 example_recommendations.p
 models/
+scripts/
 recommendations
+songs_w_genres_create.sql
+songs_w_genres.sql
+database_.db

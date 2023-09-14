@@ -44,9 +44,8 @@ class RecommendationSystem:
         user_songs_genres = user_songs_data[1]
 
         songs_dataset = self.db.load_songs_dataset()
-        artists_genres_dataset = self.db.load_artist_genres_dataset()
 
-        recommender = Recommender(songs_dataset, artists_genres_dataset)
+        recommender = Recommender(songs_dataset)
 
         recommendations = recommender.recommend(user_songs_df, user_songs_genres, 10)
         print(recommendations)

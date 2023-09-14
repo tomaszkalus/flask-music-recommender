@@ -10,19 +10,6 @@ a{
   text-decoration: none;
   color: white;
 }
-/* .navbar{
-  padding: 10px;
-  margin-bottom: 5%;
-  text-decoration: none;
-  color: white;
-}
-
-.navbar-text{
-  text-decoration: none;
-  color: white;
-} */
-
-
 
 .close-btn {
   border: none;
@@ -36,29 +23,13 @@ a{
   color: rgb(117, 117, 117)
 }
 
-*/
-/* .recommendation-card{
-    border-style: none;
-    box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2);
-    background-color: rgb(253, 253, 253);
-    margin-bottom: 20px;
-    padding:10px;
-} */
-
-#recommendations {
-  text-align: center;
-  /* width:20%; */
-}
-
 #recommendations-container {
-  /* width:20%; */
   text-align: center;
 }
 
 .recommendation-card {
   border-style: none;
   box-shadow: -1px 1px 3px 1px rgba(0, 0, 0, 0.2);
-  /* background-color: rgb(253, 253, 253); */
   height: auto;
   display: grid;
   grid-template-columns: 1fr 7fr 1fr;

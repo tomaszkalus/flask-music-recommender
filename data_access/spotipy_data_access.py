@@ -5,6 +5,7 @@ import os
 
 
 class SpotifyDataAccess:
+    """ Data access class for Spotify API """
     def __init__(self) -> None:
         api_id = os.environ.get("spotify_api_id")
         api_secret = os.environ.get("spotify_api_secret")
@@ -15,6 +16,7 @@ class SpotifyDataAccess:
         )
 
     def autocomplete_search(self, query: str):
+        """ Searches for 10 tracks that match the search query for search autocomplete. """
         results = self.sp.search(q=query, limit=10)
         suggestions = []
 
@@ -26,6 +28,7 @@ class SpotifyDataAccess:
         return suggestions
 
     def fetch_song_genres(self, artists_ids: list):
+        """ Fetches the Spotify API for genres of provided song's artists. """
         genres = set()
         for artist_id in artists_ids:
             artist = self.sp.artist(artist_id)
@@ -34,6 +37,7 @@ class SpotifyDataAccess:
         return genres
 
     def fetch_song(self, song_id):
+        """ Fetches the Spotify API for a song with given Spotify song ID and returns the audio features relevant for recommendations. """
         features = self.sp.audio_features([song_id])[0]
         try:
             song_data = self.sp.track(song_id)

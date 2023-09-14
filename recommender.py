@@ -8,10 +8,8 @@ class Recommender:
     """Class for performing a feature-based recommendation using cosine similarity for a set of songs provided by the user."""
 
     def __init__(
-        self, songs_dataset: pd.DataFrame, artists_genres_dataset: pd.DataFrame
-    ) -> None:
+        self, songs_dataset: pd.DataFrame) -> None:
         self.songs_dataset = songs_dataset
-        self.artists_genres_dataset = artists_genres_dataset
 
     def __calculate_features_means(self, song_list: pd.DataFrame) -> pd.Series:
         """Calculates the means of all the numeric features from the songs provided via an argument."""

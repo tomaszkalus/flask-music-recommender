@@ -13,7 +13,7 @@ export default {
         let search = ref(null);
         let select = ref(null);
         let lastExecution = Date.now();
-        const delay = 500
+        const delay = 400
 
         watch(search, (val) => {
             if (val.length == 0) { items.value.length = 0 }

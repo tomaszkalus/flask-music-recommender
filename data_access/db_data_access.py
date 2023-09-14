@@ -2,10 +2,7 @@ import sqlite3
 import json
 import os
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics.pairwise import cosine_similarity
-from typing import Optional
-
+import sys
 
 class Db:
     COLUMN_NAMES = (
@@ -40,6 +37,9 @@ class Db:
             "SELECT * FROM songs_w_genres",
             conn,
         )
+
+        print("Size of songs dataset:")
+        print(sys.getsizeof(songs_dataset))
 
         conn.close()
         return songs_dataset
